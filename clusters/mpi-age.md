@@ -17,7 +17,9 @@
 - `dedicated`: 6 nodes × 32 cores, ~945 GB (967182 MB)
 - Time limit 14 days; all nodes usable → 372 cores for independent jobs
 - Never request more memory/cores than one node has (job never starts)
+- Usable space: ~60 TB
 
 ## Open questions
 - Do compute nodes have fast local /tmp? (run `df -h /tmp` inside a job)
 - Is home backed up?
+
