@@ -1,0 +1,26 @@
+# ---- Data: lives in ~/data, reached via the symlink ----
+# No trailing slash: git sees a symlink as a file, and "data/" would NOT match it
+data
+
+# ---- SLURM logs (regenerated every run) ----
+logs/*
+!logs/.gitkeep
+
+# ---- Container images (rebuildable from containers/*.def) ----
+*.sif
+
+# ---- Safety net: large genomics formats, in case one lands in the repo ----
+*.bam
+*.bai
+*.fastq
+*.fastq.gz
+*.fq.gz
+*.pod5
+*.h5ad
+*.idat
+*.allc.tsv.gz
+*.pairs.gz
+
+# ---- Python / Jupyter junk ----
+__pycache__/
+.ipynb_checkpoints/
