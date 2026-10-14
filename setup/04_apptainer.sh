@@ -7,7 +7,7 @@
 set -euo pipefail
 source "$(dirname "$0")/../config.sh"
 
-mkdir -p "$SOFTWARE_DIR/apptainer/cache" "$SOFTWARE_DIR/apptainer/tmp"
+mkdir -p "$SOFTWARE_DIR/apptainer/cache" "$SOFTWARE_DIR/apptainer/tmp" "$SOFTWARE_DIR/cache"   # all in BASE_DIR (group)
 
 # Add the environment variables to ~/.bashrc only if not already there.
 # A unique marker line lets us detect a previous run.
@@ -20,6 +20,7 @@ else
         echo "$MARKER"
         echo "export APPTAINER_CACHEDIR=\"$SOFTWARE_DIR/apptainer/cache\""
         echo "export APPTAINER_TMPDIR=\"$SOFTWARE_DIR/apptainer/tmp\""
+        echo "export XDG_CACHE_HOME=\"$SOFTWARE_DIR/cache\"      # pip and other tools: cache out of ~/.cache"
     } >> "$HOME/.bashrc"
     echo "Added Apptainer settings to ~/.bashrc"
 fi

@@ -1,10 +1,17 @@
 # MPI-AGE cluster (hpc.bioinformatics.studio) — set up 2026-09-21
 
 ## Storage
-- Home: `/nexus/posix0/MAGE-flaski/service/hpc/home/ajairam` (200 TB shared network FS)
-- Decision: ALL data lives inside home (`~/data/<project>`)
-- No quota command ("ask your administrator"); home permissions drwx------
+- Home: `/nexus/posix0/MAGE-flaski/service/hpc/home/ajairam`
+- **Home limit 100 GB. When it went over (Oct 2026, ~3.2 TB of raw data under ~/data),
+  the whole home was erased.** No quota command shows the limit ("ask your administrator").
+- Decision (2026-10-14): EVERYTHING lives in the group folder
+  `/nexus/posix0/MAGE-flaski/service/hpc/group/Anne_Schaefer/ajairam`
+  (projects/, data/, software/); home keeps only links + dot-files.
+- Group folder and home are the same filesystem (`nexus-posix0.hpccloud.mpcdf.mpg.de`,
+  ~105 TB free), so `mv` between them is an instant rename.
+- Permissions drwx------ (home and group/ajairam)
 - Next to home: `group/`; top level also has `ftp_data/`, `globus/`, `tmp/`
+- Login node: no clean-up timer touches home or group (only /tmp via systemd-tmpfiles)
 
 ## Software
 - git 2.25.1 (< 2.28 ignores init.defaultBranch → use `git checkout -b main`)
@@ -20,4 +27,5 @@
 
 ## Open questions
 - Do compute nodes have fast local /tmp? (run `df -h /tmp` inside a job)
-- Is home backed up?
+- Is home / the group folder backed up or snapshotted?
+- Does the group folder have a limit or purge rule too?

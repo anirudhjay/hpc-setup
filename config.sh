@@ -15,7 +15,17 @@ SSH_KEY="$HOME/.ssh/id_ed25519_github"
 # Projects: each gets ~/projects/<name> (code, git) and ~/data/<name> (data)
 PROJECTS="sc-aging array-aging nanopore-rdna"
 
-# Top-level layout (all inside home)
-PROJECTS_DIR="$HOME/projects"
-DATA_DIR="$HOME/data"
-SOFTWARE_DIR="$HOME/software"
+# Where everything lives. Home is SMALL on most clusters (MPI-AGE: 100 GB, and the
+# whole home was wiped when it went over), so code, data and software live in the
+# lab's group folder. Home only keeps links to them, plus .ssh / .gitconfig / .bashrc.
+# Leave GROUP_DIR empty ("") on a cluster without a group folder: then all stays in home.
+GROUP_DIR="/nexus/posix0/MAGE-flaski/service/hpc/group/Anne_Schaefer/ajairam"
+BASE_DIR="${GROUP_DIR:-$HOME}"              # GROUP_DIR if set, otherwise home
+
+# Top-level layout (real folders in BASE_DIR ; ~/projects, ~/data, ~/software are links)
+PROJECTS_DIR="$BASE_DIR/projects"
+DATA_DIR="$BASE_DIR/data"
+SOFTWARE_DIR="$BASE_DIR/software"
+
+# Warn when home itself (links not followed) grows past this size
+HOME_WARN_GB=50
