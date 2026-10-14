@@ -3,8 +3,8 @@
 # 07_check_home.sh — how big is home itself? Run it now and then.
 # On MPI-AGE, home has a 100 GB limit and was WIPED when it went over, so the
 # warning threshold (HOME_WARN_GB in config.sh) is set well below that.
-# du does not follow links, so ~/data, ~/projects, ~/software (in the group
-# folder) are NOT counted here — only what really sits in home.
+# du does not follow links, so ~/data and ~/software (in the group folder) are
+# NOT counted here — only what really sits in home (code, dot-files, caches).
 # Changes nothing.
 # ============================================================================
 set -euo pipefail
@@ -17,8 +17,8 @@ echo "home ($HOME): ${gb} GB  (warning above ${HOME_WARN_GB} GB)"
 echo; echo "Biggest items in home (hidden caches included):"
 { du -sh "$HOME"/.[!.]* "$HOME"/* 2>/dev/null || true; } | sort -h | tail -8   # '|| true': an empty pattern must not stop the script
 
-echo; echo "Top folders should be links into the group folder:"
-for top in projects data software; do
+echo; echo "data and software should be links into the group folder:"
+for top in data software; do
     if [ -L "$HOME/$top" ]; then echo "  ok   ~/$top -> $(readlink "$HOME/$top")"
     elif [ -e "$HOME/$top" ]; then echo "  BAD  ~/$top is a real folder in home: run setup/01_skeleton.sh"
     else echo "  --   ~/$top missing: run setup/01_skeleton.sh"; fi

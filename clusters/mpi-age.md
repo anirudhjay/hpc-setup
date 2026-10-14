@@ -4,9 +4,9 @@
 - Home: `/nexus/posix0/MAGE-flaski/service/hpc/home/ajairam`
 - **Home limit 100 GB. When it went over (Oct 2026, ~3.2 TB of raw data under ~/data),
   the whole home was erased.** No quota command shows the limit ("ask your administrator").
-- Decision (2026-10-14): EVERYTHING lives in the group folder
-  `/nexus/posix0/MAGE-flaski/service/hpc/group/Anne_Schaefer/ajairam`
-  (projects/, data/, software/); home keeps only links + dot-files.
+- Decision (2026-10-14): code (~/projects) stays in home; data and software live in the group folder
+  `/nexus/posix0/MAGE-flaski/service/hpc/group/Anne_Schaefer/ajairam` (data/, software/),
+  reached via the links ~/data and ~/software.
 - Group folder and home are the same filesystem (`nexus-posix0.hpccloud.mpcdf.mpg.de`,
   ~105 TB free), so `mv` between them is an instant rename.
 - Permissions drwx------ (home and group/ajairam)

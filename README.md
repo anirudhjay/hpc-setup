@@ -6,12 +6,12 @@ Every script is safe to re-run.
 
 ## Layout this creates
 
-Everything lives in the lab's group folder (`GROUP_DIR` in `config.sh`); home only
-holds links plus `.ssh`, `.gitconfig`, `.bashrc`. Home is small on most clusters
-(MPI-AGE: 100 GB, and the whole home was wiped when it went over).
+Code stays in home (small). Data and software live in the lab's group folder
+(`GROUP_DIR` in `config.sh`), reached through links `~/data` and `~/software`.
+Home is small on most clusters (MPI-AGE: 100 GB, and the whole home was wiped when it went over).
 
 ```
-$GROUP_DIR/projects/<project>/      code — one git repo per project     (~/projects links here)
+~/projects/<project>/               code — one git repo per project (real folder in home)
 $GROUP_DIR/data/<project>/          raw/ processed/ results/ — never in git   (~/data links here)
 $GROUP_DIR/data/shared/references/  genomes used by more than one project
 $GROUP_DIR/software/containers/     built .sif images — rebuildable, never in git   (~/software links here)
@@ -24,12 +24,12 @@ Check home's size with `bash setup/07_check_home.sh`.
 
 ## Runbook for a new cluster
 
-0. **Get this repo onto the cluster** (straight into the group folder).
-   - If this repo is public: `git clone https://github.com/anirudhjay/hpc-setup.git <GROUP_DIR>/projects/hpc-setup`
+0. **Get this repo onto the cluster.**
+   - If this repo is public: `git clone https://github.com/anirudhjay/hpc-setup.git ~/projects/hpc-setup`
    - If private: SSH to GitHub isn't set up yet, so first copy-paste
      `setup/03_ssh_github.sh` from the GitHub website and run it (step 3 below),
      then `git clone git@github.com:anirudhjay/hpc-setup.git ~/projects/hpc-setup`
-1. `cd <GROUP_DIR>/projects/hpc-setup` and check `config.sh` (email, project list, GROUP_DIR).
+1. `cd ~/projects/hpc-setup` and check `config.sh` (email, project list, GROUP_DIR).
 2. `bash setup/00_discover.sh` → write the answers into `clusters/<name>.md`.
 3. `bash setup/01_skeleton.sh`
 4. `bash setup/02_git_identity.sh`

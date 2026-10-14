@@ -1,8 +1,9 @@
 #!/bin/bash
 # ============================================================================
-# 01_skeleton.sh — create the folder layout in BASE_DIR (the group folder when
-# GROUP_DIR is set in config.sh) and leave links in home:
-#     ~/projects -> $BASE_DIR/projects     (code, one git repo per project)
+# 01_skeleton.sh — create the folder layout. Code stays in home (small);
+# data and software go to BASE_DIR (the group folder when GROUP_DIR is set in
+# config.sh), with links left in home:
+#     ~/projects                           (code, one git repo per project: real folder in home)
 #     ~/data     -> $BASE_DIR/data         (raw / processed / results)
 #     ~/software -> $BASE_DIR/software     (containers, Apptainer cache)
 # Old paths like ~/data/sc-aging keep working, but nothing big sits in home.
@@ -17,7 +18,7 @@ source "$(dirname "$0")/../config.sh"           # load settings
 
 # --- 1. one top folder: make it in BASE_DIR, leave a link in home -----------
 link_home() {
-    local name="$1"                  # projects | data | software
+    local name="$1"                  # data | software
     local target="$BASE_DIR/$name"   # the real folder
     local link="$HOME/$name"         # what you type
 
@@ -50,11 +51,12 @@ link_home() {
     echo "~/$name -> $target"
 }
 
-for top in projects data software; do
+mkdir -p "$PROJECTS_DIR"            # code: a plain folder in home
+for top in data software; do        # big things: real folder in BASE_DIR, link in home
     link_home "$top"
 done
 
-# --- 2. per-project folders (inside BASE_DIR, reached through the links) ----
+# --- 2. per-project folders (code in home ; data via the ~/data link) -------
 for p in $PROJECTS; do
     mkdir -p "$PROJECTS_DIR/$p"                                   # code (git repo)
     mkdir -p "$DATA_DIR/$p"/{raw,processed,results}               # data (never in git)
@@ -63,7 +65,7 @@ mkdir -p "$DATA_DIR/shared/references"                            # genomes used
 mkdir -p "$SOFTWARE_DIR/containers"                               # built .sif images
 
 # --- 3. show the result ------------------------------------------------------
-echo; echo "Home now (should hold only links and dot-files):"
+echo; echo "Home now (projects/ is a folder; data and software are links):"
 ls -la "$HOME"
 echo; echo "Layout in $BASE_DIR:"
 find "$PROJECTS_DIR" "$DATA_DIR" "$SOFTWARE_DIR" -maxdepth 2 -type d | sort
