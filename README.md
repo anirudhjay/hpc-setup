@@ -38,7 +38,8 @@ Check home's size with `bash setup/07_check_home.sh`.
 6. `bash setup/04_apptainer.sh` then `source ~/.bashrc`
 7. For each existing project: `bash setup/06_clone_project.sh sc-aging` (etc.)
    → then transfer the data (Globus / rsync) into `~/data/<project>` (= the group folder)
-8. Now and then: `bash setup/07_check_home.sh` (home must stay small)
+8. Now and then: `bash setup/07_check_home.sh` (home must stay small);
+   or once: `bash setup/08_cron_home_check.sh` (hourly check by cron, warning at login)
 9. Only for a brand-new project: create an EMPTY repo on GitHub, then
    `bash setup/05_new_project.sh <name>`, check `git status`, commit, push.
 
